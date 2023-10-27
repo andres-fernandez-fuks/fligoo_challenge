@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'tic_tac_toe.urls'
+ROOT_URLCONF = 'project_files.urls'
 
 TEMPLATES = [
     {
@@ -67,7 +67,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'tic_tac_toe.wsgi.application'
+WSGI_APPLICATION = 'project_files.wsgi.application'
 
 
 # Database
