@@ -1,0 +1,40 @@
+version: '3'
+
+volumes:
+  postgres_data: {}
+
+services:
+  django.tic_tac_toe_api:
+    image: tic-tac-toe-api-django
+    build:
+      context: .
+      dockerfile: ./compose/django/Dockerfile
+    depends_on:
+      - postgres.tic_tac_toe_api
+    volumes:
+      - .:/app
+    env_file:
+      - ./.envs/.django
+      - ./.envs/.postgres
+    ports:
+      - "${DJANGO_PORT}:8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: /start
+
+  postgres.tic_tac_toe_api:
+    image: tic-tac-toe-api-postgres
+    build:
+      context: .
+      dockerfile: ./compose/postgres/Dockerfile
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./.envs/.postgres
+    ports:
+      - "${POSTGRES_EXTERNAL_PORT}:5432"
+
+networks:
+  default:
+      name: tic_tac_toe_network
+
