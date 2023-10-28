@@ -4,7 +4,7 @@ from typing import List
 # Project
 from tic_tac_toe_api.models.base_model import BaseModel
 from tic_tac_toe_api.models.player import Player
-from tic_tac_toe_api.utils.enums import GameStatus, GameOrders
+from tic_tac_toe_api.utils.enums import GameStatus, GameOrder
 
 
 class Game(BaseModel):
@@ -24,6 +24,7 @@ class Game(BaseModel):
     )
     board = models.JSONField()  # Probably a class on its own later
     status = models.CharField(choices=GameStatus.choices, max_length=20, default=GameStatus.ONGOING)
+    movements_played = models.PositiveSmallIntegerField(default=0)
 
     def set_players_game(self, players: List[Player]):
         player_1, player_2 = sorted(players, key=lambda p: p.game_order)
@@ -45,8 +46,8 @@ class Game(BaseModel):
 
     @property
     def player_1(self) -> Player:
-        return self.players.get(game_order=GameOrders.FIRST)
+        return self.players.get(game_order=GameOrder.FIRST)
 
     @property
     def player_2(self) -> Player:
-        return self.players.get(game_order=GameOrders.SECOND)
+        return self.players.get(game_order=GameOrder.SECOND)

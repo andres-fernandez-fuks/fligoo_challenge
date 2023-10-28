@@ -6,6 +6,11 @@ class GameStatus(models.TextChoices):
     FINISHED = "Finished", "Finished"
 
 
-class GameOrders(models.IntegerChoices):
+class GameOrder(models.IntegerChoices):
     FIRST = 1
     SECOND = 2
+
+
+class GameSymbols(models.TextChoices):
+    _X = "X", "X"
+    _O = "O", "O"

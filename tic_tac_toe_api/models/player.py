@@ -2,7 +2,7 @@ from django.db import models
 
 # Project
 from tic_tac_toe_api.models.base_model import BaseModel
-from tic_tac_toe_api.utils.enums import GameOrders
+from tic_tac_toe_api.utils.enums import GameOrder
 
 
 class Player(BaseModel):
@@ -16,12 +16,12 @@ class Player(BaseModel):
         help_text="Game the player is playing.",
     )
     game_order = models.PositiveSmallIntegerField(
-        choices=GameOrders.choices,
-        help_text="Order of the player in the game."
+        choices=GameOrder.choices, help_text="Order of the player in the game."
     )
 
     class Meta:
         unique_together = [["name", "game"], ["symbol", "game"]]
+
     # Two players cannot have the same name or symbol in the same game
 
     def __str__(self):
