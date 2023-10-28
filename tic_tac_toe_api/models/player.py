@@ -20,7 +20,8 @@ class Player(BaseModel):
         help_text="Order of the player in the game."
     )
 
-    unique_together = [["name", "game"], ["symbol", "game"]]
+    class Meta:
+        unique_together = [["name", "game"], ["symbol", "game"]]
     # Two players cannot have the same name or symbol in the same game
 
     def __str__(self):

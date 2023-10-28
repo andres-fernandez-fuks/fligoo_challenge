@@ -36,6 +36,6 @@ docker compose -f local.yml run --rm --service-ports django.tic_tac_toe_api
 
 * De acuerdo a los requisitos, entiendo que un Player debería existir sólo dentro de Game. No hay historial para los jugadores, ni otras cuestiones que llevarían a que Player existiera fuera de un Game. Por eso, defino la relación de la manera que se muestra en models: un Player tiene un Game, y no viceversa.
 
-* Este cambio me llevó algo de tiempo, hubiera sido más simple tener player_1 y player_2 dentro de Game, pero me pareció claro que no era la idea del enunciado. Por otro lado, la adición de los jugadores al juego no puede hacerse en la creación, por limitaciones de Django, por lo que quedó en un método aparte, y llevó a permitir algunos campos en null=True (Person->game y Game->next_move).
+* Este cambio me llevó algo de tiempo, hubiera sido más simple tener player_1 y player_2 dentro de Game, pero me pareció claro que no era la idea del enunciado. Por otro lado, la adición de los jugadores al juego no puede hacerse en la creación, por limitaciones de Django, por lo que quedó en un método aparte, y llevó a permitir algunos campos en null=True (Person->game y Game->next_move). También podía overridear el delete de Game para que borre los players, pero me pareció mejor esta alternativa.
 
 * Next move podría ser simplemente un booleano (0,1) o int que sirviera para moverse en el array de jugadores (1 o 2). Sin embargo, lo defino como una foreign key a Player que es simplemente un id y funciona de forma similar.
