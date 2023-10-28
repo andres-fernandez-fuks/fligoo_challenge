@@ -24,7 +24,7 @@ class GameViewSet(
     @swagger_auto_schema(
         request_body=GameCreationSerializer,
         responses=doc.game_creation_responses,
-        operation_description="Retrieves the law projects of a legislator",
+        operation_description="Creates a new game",
     )
     def create(self, request, *args, **kwargs):
         serializer = GameCreationSerializer(data=request.data)
@@ -37,7 +37,7 @@ class GameViewSet(
         method="post",
         request_body=NewPlaySerializer,
         responses=doc.game_creation_responses,
-        operation_description="Retrieves the law projects of a legislator",
+        operation_description="Submits a new play to an existing game",
     )
     @action(detail=False, methods=["post"], url_path="submit-play")
     def submit_play(self, request):
