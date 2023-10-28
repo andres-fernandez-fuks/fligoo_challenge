@@ -10,12 +10,18 @@ from tic_tac_toe_api.models import Game
 from tic_tac_toe_api.serializers.game import GameCreationSerializer, GameModelSerializer, NewPlaySerializer
 
 
-class GameViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
-    serializer_class = GameCreationSerializer
+class GameViewSet(
+    viewsets.GenericViewSet,
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.DestroyModelMixin,
+):
+    serializer_class = GameModelSerializer
     queryset = Game.objects.all().order_by("-created_at")
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        serializer = GameCreationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         game = serializer.create(serializer.validated_data)
         game_data = GameModelSerializer(game).data
