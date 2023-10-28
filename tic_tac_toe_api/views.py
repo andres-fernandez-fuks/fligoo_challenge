@@ -7,7 +7,7 @@ from rest_framework import status
 
 # Models
 from tic_tac_toe_api.models import Game
-from tic_tac_toe_api.serializers.game import GameCreationSerializer, GameModelSerializer
+from tic_tac_toe_api.serializers.game import GameCreationSerializer, GameModelSerializer, NewPlaySerializer
 
 
 class GameViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
@@ -17,6 +17,15 @@ class GameViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        game_instance = serializer.create(serializer.validated_data)
-        game_data = GameModelSerializer(game_instance).data
+        game = serializer.create(serializer.validated_data)
+        game_data = GameModelSerializer(game).data
         return Response(game_data, status=status.HTTP_201_CREATED)
+
+    @action(detail=False, methods=["post"], url_path="submit-play")
+    def submit_play(self, request):
+        serializer = NewPlaySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        game: Game = serializer.validated_data.pop("game")
+        game.submit_play(**serializer.validated_data)
+        game_data = GameModelSerializer(game).data
+        return Response(game_data)

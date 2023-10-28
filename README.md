@@ -41,3 +41,4 @@ docker compose -f local.yml run --rm --service-ports django.tic_tac_toe_api
 * Next move podría ser simplemente un booleano (0,1) o int que sirviera para moverse en el array de jugadores (1 o 2). Sin embargo, lo defino como una foreign key a Player que es simplemente un id y funciona de forma similar.
 
 * Agrego validación de que nombres y símbolos de jugadores no sean iguales para el mismo juego tanto a nivel de serializer como de modelo. Si bien obviamente esto implica una redundancia en la validación, entiendo que el modelo debe verificarlo y es una validación muy simple.
+ 

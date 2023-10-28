@@ -81,3 +81,34 @@ class GameCreationSerializer(serializers.Serializer):
         game = Game.objects.create()
         game.add_players(players)
         return game
+
+
+class NewPlaySerializer(serializers.Serializer):
+    game_id = serializers.IntegerField()
+    player = serializers.CharField()
+    row = serializers.IntegerField()
+    column = serializers.IntegerField()
+
+    def validate(self, data):
+        super().validate(data)
+        game_id = data["game_id"]
+        player_name = data["player"]
+        row = data["row"]
+        column = data["column"]
+        game = Game.objects.filter(id=game_id).first()
+        if not game:
+            raise serializers.ValidationError("Game does not exist.")
+        player = Player.objects.filter(game_id=game_id, name=player_name).first()
+        if not player:
+            raise serializers.ValidationError("Player does not exist for this game")
+        if game.winner is not None:
+            raise serializers.ValidationError("Game is already finished.")
+        if game.next_turn != player:
+            raise serializers.ValidationError("It's not this player's turn.")
+        is_valid, msg = game.is_valid_play(row, column)
+        if not is_valid:
+            raise serializers.ValidationError(msg)
+        data.pop("game_id")
+        data["game"] = game  # we replace id for instance
+        data["player"] = player  # we replace name for instance
+        return data
