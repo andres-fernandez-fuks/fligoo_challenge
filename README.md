@@ -11,7 +11,23 @@ Challenge para la empresa Fligoo.
 
 ## Ejecución
 
+Renombrar los archivos:
+
+- .envs/django_sample -> .envs/django 
+-.envs/postgres_sample -> .envs/postgres
+
+y setear las variables de entorno correspondientes en postgres.
+
 Docker build:
+
+Se puede hacer el build utilizando el script run.sh de la base del proyecto, de esta forma:
+
+```
+chmod +x run.sh (sólo la primera vez)
+./run.sh --build
+```
+
+También se puede hacer el build directamente con docker compose:
 
 ```
 docker compose -f local.yml build
@@ -22,7 +38,7 @@ Docker run:
 Se recomienda ejecutar el script run.sh, donde se pueden setear fácilmente puertos externos:
 
 ```
-chmod +x run.sh
+chmod +x run.sh (sólo la primera vez)
 ./run.sh
 ```
 
@@ -30,9 +46,17 @@ De lo contrario, se puede ejecutar simplemente:
 
 ```
 docker compose -f local.yml run --rm --service-ports django.tic_tac_toe_api
+docker exec -it ${NOMBRE_DEL_CONTENEDOR} bash
+```
 ```
 
 ## Decisiones
+
+* Tiempo estimado de desarrollo: 5 horas.
+
+* Faltante: falta la lógica de verificación de un ganador. Dejé las funciones que verificarían eso vacías, pero es bastante trivial cómo se buscaría el ganador en el tablero. También, en ese caso, debería hacer las pruebas unitarias asociadas.
+
+* Había pensado en que Board fuera una clase en sí mismo, pero no me pareció que fuera necesario. El tablero es simplemente un array de 9 posiciones, y no tiene lógica asociada, aunque se podría delegar cierta lógica de Game al Board eventualmente.
 
 * De acuerdo a los requisitos, entiendo que un Player debería existir sólo dentro de Game. No hay historial para los jugadores, ni otras cuestiones que llevarían a que Player existiera fuera de un Game. Por eso, defino la relación de la manera que se muestra en models: un Player tiene un Game, y no viceversa.
 

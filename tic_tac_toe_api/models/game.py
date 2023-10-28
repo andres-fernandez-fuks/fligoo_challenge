@@ -25,7 +25,7 @@ class Game(BaseModel):
         null=True,
         help_text="Player who won the game.",
     )
-    board = models.JSONField()  # Probably a class on its own later
+    board = models.JSONField()
     status = models.CharField(choices=GameStatus.choices, max_length=20, default=GameStatus.ONGOING)
     movements_played = models.PositiveSmallIntegerField(default=0)
 
