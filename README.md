@@ -9,7 +9,7 @@ Challenge para la empresa Fligoo.
 * La aplicación no se puede llamar "tic_tac_toe" porque existe un módulo en Python con ese nombre, por eso "tic_tac_toe_api".
 
 
-## Ejecución
+## Ejecución del contenedor
 
 Renombrar los archivos:
 
@@ -47,6 +47,30 @@ De lo contrario, se puede ejecutar simplemente:
 ```
 docker compose -f local.yml run --rm --service-ports django.tic_tac_toe_api
 docker exec -it ${NOMBRE_DEL_CONTENEDOR} bash
+```
+
+### Ejecución de pruebas
+
+(Dentro del contenedor)
+
+```
+python manage.py test
+```
+
+### Ejecución de migraciones
+
+(Dentro del contenedor)
+
+```
+python manage.py migrate
+```
+
+### Ejecución de servidor
+
+(Dentro del contenedor)
+
+```
+python manage.py runserver
 ```
 
 
